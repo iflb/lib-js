@@ -1,0 +1,28 @@
+{
+  "name": "@iflb/lib",
+  "version": "0.1.0",
+  "description": "",
+  "main": "lib/lib.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iflb/lib-js.git"
+  },
+  "author": "ueda@iflab.co.jp",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/iflb/lib-js/issues"
+  },
+  "homepage": "https://iflb.github.io/lib-js",
+  "devDependencies": {
+    "jest": "^27.0.4",
+    "terser-webpack-plugin": "^5.1.1",
+    "webpack": "^5.23.0",
+    "webpack-cli": "^4.7.0"
+  }
+}
