@@ -1,5 +1,13 @@
 const { ThisBinded, ThisKeywordProhibitedError } = require('../lib/lib')
 
+class TestClassContainingGetterAndSetter extends ThisBinded {
+    constructor() {
+        super();
+    }
+    get x() {}
+    set x(value) {}
+};
+
 class TestClassThisNotBinded {
     constructor() {
         this.value = 1;
@@ -38,6 +46,13 @@ class MethodHolder {
         this.getValue = instance.getValue;
     }
 }
+
+test(
+    'Test constructing class containing getter and setter.',
+    () => {
+        expect(() => { new TestClassContainingGetterAndSetter() }).not.toThrow(TypeError);
+    },
+);
 
 test(
     'Test this binded.',
