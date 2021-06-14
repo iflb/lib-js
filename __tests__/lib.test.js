@@ -1,6 +1,6 @@
-const { ThisBinded, ThisKeywordProhibitedError } = require('../lib/lib')
+const { ThisBound, ThisKeywordProhibitedError } = require('../lib/lib')
 
-class TestClassContainingGetterAndSetter extends ThisBinded {
+class TestClassContainingGetterAndSetter extends ThisBound {
     constructor() {
         super();
     }
@@ -8,7 +8,7 @@ class TestClassContainingGetterAndSetter extends ThisBinded {
     set x(value) {}
 };
 
-class TestClassThisNotBinded {
+class TestClassThisNotBound {
     constructor() {
         this.value = 1;
     }
@@ -18,7 +18,7 @@ class TestClassThisNotBinded {
     }
 }
 
-class TestClassThisBinded extends ThisBinded {
+class TestClassThisBound extends ThisBound {
     constructor() {
         super();
         this.value = 1;
@@ -29,7 +29,7 @@ class TestClassThisBinded extends ThisBinded {
     }
 }
 
-class TestClassAccessThis extends ThisBinded {
+class TestClassAccessThis extends ThisBound {
     constructor() {
         super();
         this.value = 1;
@@ -47,6 +47,17 @@ class MethodHolder {
     }
 }
 
+class Test2ClassThisBound extends TestClassThisBound {
+    constructor(value) {
+        super();
+        this.value = value;
+    }
+
+    getValue(self) {
+        return super.getValue(self);
+    }
+}
+
 test(
     'Test constructing class containing getter and setter.',
     () => {
@@ -57,7 +68,7 @@ test(
 test(
     'Test this binded.',
     () => {
-        let t = new TestClassThisBinded();
+        let t = new TestClassThisBound();
         expect(() => { t.getValue() }).not.toThrow(TypeError);
         let t_getValue = t.getValue;
         expect(t_getValue).not.toThrow(TypeError);
@@ -69,7 +80,7 @@ test(
 test(
     'Test this not binded.',
     () => {
-        let t = new TestClassThisNotBinded();
+        let t = new TestClassThisNotBound();
         expect(() => { t.getValue() }).not.toThrow(TypeError);
         let t_getValue = t.getValue;
         expect(t_getValue).toThrow(TypeError);
@@ -85,3 +96,13 @@ test(
         expect(t.getValue).toThrow(ThisKeywordProhibitedError);
     },
 );
+
+
+test(
+    'Test double inheritance.',
+    () => {
+        let t = new Test2ClassThisBound(3);
+        expect(() => { t.getValue(); }).not.toThrow(TypeError);
+        expect(t.getValue()).toBe(3);
+    }
+)
