@@ -1,5 +1,12 @@
 const { ThisBound, ThisKeywordProhibitedError } = require('../lib/lib')
 
+class TestClassContainingGetterShouldNotBeCalled extends ThisBound {
+    constructor() {
+        super();
+    }
+    get x() { throw new TypeError('Should not be called.'); }
+};
+
 class TestClassContainingGetterAndSetter extends ThisBound {
     constructor() {
         super();
@@ -57,6 +64,13 @@ class Test2ClassThisBound extends TestClassThisBound {
         return super.getValue(self);
     }
 }
+
+test(
+    'Test constructing class containing getter should not be called.',
+    () => {
+        expect(() => { new TestClassContainingGetterShouldNotBeCalled() }).not.toThrowError('Should not be called.');
+    },
+);
 
 test(
     'Test constructing class containing getter and setter.',
